@@ -9,19 +9,19 @@ import java.text.ParseException;
  */
 public class Excute {
     public static void main(String[] args) throws IOException, ParseException {
-//        PackageTrackingReader[] readers = {new ShippoAPIWrapper(), new WebPageTrackingReader()};
-//        for (PackageTrackingReader packageTrackingReader : readers) {
-//            PackageTracking tracking = packageTrackingReader.read("usps", "9200199999977453249942");
-//            System.out.println(JSON.toJSONString(tracking, true));
-//        }
-//        PackageTracking shippoApi= readers[0].read("usps", "9200199999977453249942");
-//        PackageTracking webPage = readers[1].read("usps", "9200199999977453249942");
-//        if (shippoApi.tracking_history.size()==webPage.tracking_history.size()){
-//            System.out.print("their size matched.");
-//        }
+        PackageTrackingReader[] readers = {new ShippoAPIWrapper(), new WebPageTrackingReader()};
+        for (PackageTrackingReader packageTrackingReader : readers) {
+            PackageTracking tracking = packageTrackingReader.read("usps", "9200199999977453249942");
+            System.out.println(JSON.toJSONString(tracking, true));
+        }
+        PackageTracking shippoApi= readers[0].read("usps", "9200199999977453249942");
+        PackageTracking webPage = readers[1].read("usps", "9200199999977453249942");
+        if (shippoApi.tracking_history.size()==webPage.tracking_history.size()){
+            System.out.print("their size matched.");
+        }
 
-        PackageTrackingReader reader = new WebPageTrackingReader();
-        PackageTracking webTracking = reader.read("usps", "9200199999977453249942");
-        System.out.println(JSON.toJSONString(webTracking, true));
+//        PackageTrackingReader reader = new WebPageTrackingReader();
+//        PackageTracking webTracking = reader.read("usps", "9200199999977453249942");
+//        System.out.println(JSON.toJSONString(webTracking, true));
     }
 }
