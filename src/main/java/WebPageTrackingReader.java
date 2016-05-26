@@ -1,3 +1,4 @@
+import org.apache.commons.lang3.time.DateUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -5,7 +6,6 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 /**
  * Created by <a href="mailto:micahliu153@gmail.com">micah</a> on 2016/4/11.
@@ -36,13 +36,7 @@ public class WebPageTrackingReader implements PackageTrackingReader{
         for (Element el : events){
             PackageTracking.TrackingHistory trackingHistory = new PackageTracking.TrackingHistory();
             String dateTxt = el.select("td.date-time").text().trim();
-
-            try {
-                trackingHistory.date = new SimpleDateFormat("MMM d, yyyy , h:mm a", Locale.ENGLISH).parse(dateTxt);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-
+            trackingHistory.date = dateParse(dateTxt);
             String locationTxt = el.select("td.location").text();
             Location location = Location.parse(locationTxt);
             trackingHistory.location = location;
@@ -50,7 +44,7 @@ public class WebPageTrackingReader implements PackageTrackingReader{
 
             trackingHistory.status = trackingHistory.details.toLowerCase().contains("delivered") ? "DELIVERED" : "TRANSIT";
             if (trackingHistory.details.toLowerCase().contains("delivered")) {
-
+                trackingHistory.status = "delivered";
             } else {
                 trackingHistory.status = "TRANSIT";
             }
@@ -70,5 +64,19 @@ public class WebPageTrackingReader implements PackageTrackingReader{
                         .header("Connection","keep-alive")
                         .followRedirects(true)
                         .get();
+    }
+
+
+    public void validateDocument(Document doc) {
+    }
+    public static Date dateParse(String dateStr){
+        Date d = null;
+        try {
+            Locale.setDefault(Locale.US);
+            d = DateUtils.parseDateStrictly(dateStr, new String[] {"MMM d, yyyy , h:mm a", "MMM d, yyyy"});
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return d;
     }
 }

@@ -11,9 +11,12 @@ public class Location {
     static Location parse(String locationTxt) {
         String[] array = locationTxt.split(",");
         Location location = new Location();
-        location.city = array[0].trim();
-        location.state = array[1].replaceAll("[^A-Z]", "");
-        location.zip = array[1].replaceAll("[^0-9-]", "");
+        if(array.length==2){
+            location.city = array[0].trim();
+            location.state = array[1].replaceAll("[^A-Z]", "");
+            location.zip = array[1].replaceAll("[^0-9-]", "");
+        }
+
         location.country = "US";
         return location;
     }

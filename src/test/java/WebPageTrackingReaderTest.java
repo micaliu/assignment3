@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
 
 
 /**
@@ -18,13 +17,12 @@ public class WebPageTrackingReaderTest {
     @Test
     public void parseValidWebPageTrackingReaderTest(){
         try {
-            Document doc = Jsoup.parse(new File("..\\SE500-Micah\\src\\main\\resources\\USPS_9200199999977453249942.html"),"UTF-8");
+            Document doc = Jsoup.parse(new File("src\\main\\resources\\USPS_9200199999977453249942.html"),"UTF-8");
             PackageTracking packageTracking = WebPageTrackingReader.parse("usps","9200199999977453249942",doc);
             Assert.assertEquals(packageTracking.tracking_history.size(),6);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     @Test
     public void parseValidWebPageTrackingReaderSecondSTest(){
@@ -50,19 +48,12 @@ public class WebPageTrackingReaderTest {
     }
     @Test
     public void dateParseTest(){
-        try {
-            Assert.assertEquals("Mon Apr 04 08:20:00 PDT 2016", WebPageTrackingReader.dateParse("April 4, 2016 , 8:20 am").toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Assert.assertEquals("Mon Apr 04 08:20:00 PDT 2016", WebPageTrackingReader.dateParse("April 4, 2016 , 8:20 am").toString());
     }
     @Test
     public void dateParseSecondTest(){
-        try {
-            Assert.assertEquals("Mon Apr 04 00:00:00 PDT 2016", WebPageTrackingReader.dateParse("April 4, 2016").toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Assert.assertEquals("Mon Apr 04 00:00:00 PDT 2016", WebPageTrackingReader.dateParse("April 4, 2016").toString());
+
     }
 
 }
